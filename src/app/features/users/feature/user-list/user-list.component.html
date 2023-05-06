@@ -1,0 +1,71 @@
+<div *ngIf="state() as state" class="container">
+
+  <div class="row">
+    <ng-container [ngSwitch]="state.httpState.status">
+      <!-- loading -->
+      <ng-container *ngSwitchCase="'loading'">
+        <button class="btn btn-primary" disabled>
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Loading...
+        </button>
+      </ng-container>
+
+      <!-- error -->
+      <ng-container *ngSwitchCase="'error'">
+        <div class="alert alert-danger" role="alert">
+          Error: {{ state.httpState.message }}
+        </div>
+      </ng-container>
+
+      <!-- success -->
+      <ng-container *ngSwitchDefault>
+        <ng-container *ngIf="state.list.length; else EmptyList">
+          <!-- user card -->
+          <div
+            *ngFor="let user of state.list"
+            class="col-lg-3 col-md-4 col-sm-6"
+          >
+            <gu-user-card [user]="user"></gu-user-card>
+          </div>
+        </ng-container>
+        <ng-template #EmptyList>
+          <div class="alert alert-warning" role="alert">
+            No users found!
+          </div>
+        </ng-template>
+      </ng-container>
+
+    </ng-container>
+
+  </div>
+
+  <!-- navigation buttons -->
+  <div class="row pt-3">
+    <div class="d-flex justify-content-center align-items-center text-white">
+      <span
+        class="nav-button text-white"
+        [class.disabled]="!state.pagination.prevLink || state.httpState.status === 'loading'"
+        (click)="loadPrevPage()"
+      >
+        < Previous Page
+      </span>
+      <div class="bg-white mx-4" style="width: 1px; height: 14px"></div>
+      <span
+        class="nav-button text-white"
+        [class.disabled]="state.httpState.status === 'loading'"
+        (click)="loadFirstPage()"
+      >
+        First Page
+      </span>
+      <div class="bg-white mx-4" style="width: 1px; height: 14px"></div>
+      <span
+        class="nav-button text-white"
+        [class.disabled]="!state.pagination.nextLink || state.httpState.status === 'loading'"
+        (click)="loadNextPage()"
+      >
+        Next Page >
+      </span>
+    </div>
+  </div>
+
+</div>

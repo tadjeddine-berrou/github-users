@@ -1,0 +1,21 @@
+<div class="card d-flex flex-column align-items-center rounded-3 shadow overflow-hidden mb-4 p-4">
+  <img
+    [ngSrc]="user.avatar_url"
+    priority
+    width="140"
+    height="140"
+    [alt]="user.avatar_url"
+    class="rounded-circle mb-3"
+  />
+  <div class="card-body d-flex flex-column align-items-center p-0">
+    <h6 class="card-title fw-bold mb-0">
+      {{ user.profile.name ?? '-' }}
+    </h6>
+    <p class="card-text fw-medium">
+      {{ user.login }}
+    </p>
+    <a [routerLink]="['/users/', user.login]" class="btn btn-primary btn-sm active px-4 rounded-2">
+      VIEW PROFILE
+    </a>
+  </div>
+</div>

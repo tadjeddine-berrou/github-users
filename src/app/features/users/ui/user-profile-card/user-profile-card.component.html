@@ -1,0 +1,75 @@
+<div class="card rounded-3 shadow overflow-hidden mb-4 p-5">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="d-flex flex-column align-items-center">
+        <img
+          [src]="user.avatar_url"
+          priority
+          width="140"
+          height="140"
+          [alt]="user.avatar_url"
+          class="rounded-circle mb-3"
+        />
+        <div class="card-body d-flex flex-column align-items-center p-0">
+          <h6 class="card-title fw-bold mb-0">
+            {{ user.profile.name || '-' }}
+          </h6>
+          <p class="card-text p-text">
+            {{ user.login }}
+          </p>
+          <p class="mb-0 p-text">
+            {{ user.profile.location }}
+          </p>
+          <a
+            *ngIf="user.profile.blog as blog"
+            [attr.href]="blog"
+            aria-label="blog"
+            target="_blank"
+          >
+            {{ user.profile.blog }}
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8" style="font-size: .8rem">
+      <div class="row py-3">
+        <div
+          *ngFor="let stat of [
+            { value: user.profile.public_repos, label: 'Public Repos' },
+            { value: user.profile.public_gists, label: 'Public Gists' },
+            { value: user.profile.followers, label: 'Followers' },
+            { value: user.profile.following, label: 'Following' }
+          ]"
+          class="stat-card card col-md-3 col-sm-6 border-0"
+        >
+          <div class="card-body p-0 text-center">
+            <h1 class="card-title mb-0">{{ stat.value || '-' }}</h1>
+            <p class="card-text fw-bold">{{ stat.label }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p class="p-text">
+            <strong>Biography:</strong> {{ user.profile.bio || '-' }}
+          </p>
+          <p class="p-text">
+            <strong>Company:</strong> {{ user.profile.company || '-' }}
+          </p>
+          <p class="p-text">
+            <strong>Twitter: </strong>
+            <a
+              *ngIf="user.profile.twitter_username as twitter_username; else Hyphen"
+              [attr.href]="'https://twitter.com/'+twitter_username"
+              aria-label="twitter"
+              target="_blank"
+            >
+              @{{ twitter_username }}
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #Hyphen>-</ng-template>

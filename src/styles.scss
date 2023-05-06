@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+@import "bootstrap/scss/bootstrap";
+
+$background-color: #3b93f3;
+
+body {
+  max-width: 1400px;
+  margin: auto;
+  background-color: $background-color;
+}

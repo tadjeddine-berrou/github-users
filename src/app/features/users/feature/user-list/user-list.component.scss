@@ -1,0 +1,11 @@
+.nav-button {
+  font-size: .88rem;
+  line-height: 22px;
+  cursor: pointer;
+  user-select: none;
+
+  &.disabled {
+    pointer-events: none;
+    opacity: .4;
+  }
+}
