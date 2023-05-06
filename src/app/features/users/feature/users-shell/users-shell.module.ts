@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UsersShellRoutingModule } from './users-shell-routing.module';
 import { UsersShellComponent } from './users-shell.component';
 import { UserService } from '@users/data-access/services/user.service';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { UserService } from '@users/data-access/services/user.service';
   ],
   imports: [
     CommonModule,
-    UsersShellRoutingModule
+    UsersShellRoutingModule,
+    FormsModule
   ],
   providers: [
     UserService

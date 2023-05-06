@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject, combineLatest, forkJoin, map, of, switchMap, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, combineLatest, forkJoin, map, of, switchMap, takeUntil } from 'rxjs';
 import { User, UserListState, UserProfile } from '@users/utils/models/user.model';
 
 @Injectable()
 export class UserService {
 
-  private readonly _token: string | null = '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';
+  private _token: string | null = null;
 
   private readonly _initialState: UserListState = {
     list: [],
@@ -22,15 +22,13 @@ export class UserService {
   private _userListState$: BehaviorSubject<UserListState> = new BehaviorSubject<UserListState>(this._initialState);
 
   private readonly _baseAPI: string = 'https://api.github.com';
-  private readonly _headers = new HttpHeaders({
-    'Accept': 'application/vnd.github+json',
-    'X-GitHub-Api-Version': '2022-11-28',
-    'Authorization': `Bearer ${this._token}`
-  });
+  private _headers: HttpHeaders = new HttpHeaders({});
 
   private _cancelUserListFetch$: Subject<void> = new Subject<void>();
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+    this.setHeaders();
+  }
 
   get userListState$(): Observable<UserListState> {
     return this._userListState$.asObservable();
@@ -136,5 +134,18 @@ export class UserService {
   cancelUserListFetch(): void {
     this._cancelUserListFetch$.next();
     this._userListState$.next(this._initialState);
+  }
+
+  setToken(token: string): void {
+    this._token = token;
+    this.setHeaders();
+  }
+
+  setHeaders(): void {
+    this._headers = new HttpHeaders({
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      ...(this._token && { 'Authorization': `Bearer ${this._token}` })
+    });
   }
 }

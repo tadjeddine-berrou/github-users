@@ -8,11 +8,17 @@ import { UserService } from '@users/data-access/services/user.service';
 })
 export class UsersShellComponent {
 
+  token: string = '';
+
   destroyRef = inject(DestroyRef);
 
   constructor(private userService: UserService) {
     this.destroyRef.onDestroy(
       () => this.userService.cancelUserListFetch()
     );
+  }
+
+  updateToken(): void {
+    this.userService.setToken(this.token);
   }
 }
